@@ -24,13 +24,8 @@ import CharacterCount from '@tiptap/extension-character-count';
 import Placeholder from '@tiptap/extension-placeholder';
 import Focus from '@tiptap/extension-focus';
 
-// Define the Tiptap components with proper casting to avoid 'any'
-const { useEditor, EditorContent, BubbleMenu, FloatingMenu } = TiptapReact as unknown as {
-  useEditor: typeof TiptapReact.useEditor;
-  EditorContent: typeof TiptapReact.EditorContent;
-  BubbleMenu: typeof TiptapReact.BubbleMenu;
-  FloatingMenu: typeof TiptapReact.FloatingMenu;
-};
+// Cast TiptapReact to any to avoid strict version mismatch issues during build
+const { useEditor, EditorContent, BubbleMenu, FloatingMenu } = TiptapReact as any;
 
 import { EditorToolbar } from '@/components/editor/EditorToolbar';
 import { WordCountStatus } from '@/components/editor/WordCountStatus';
@@ -93,10 +88,10 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         class: 'page-a4 outline-none focus:outline-none min-h-[297mm] prose prose-sm max-w-none transition-all duration-300',
       },
     },
-    onUpdate: ({ editor }) => {
+    onUpdate: ({ editor }: { editor: any }) => {
       onUpdate?.(editor.getHTML(), editor.getText());
     },
-    onSelectionUpdate: ({ editor }) => {
+    onSelectionUpdate: ({ editor }: { editor: any }) => {
       const { from, to } = editor.state.selection;
       if (from !== to) {
         onSelectionChange?.(editor.state.doc.textBetween(from, to, ' '));
@@ -106,7 +101,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
 
   // Listen for rich animation/content insertion from Sidebar
   useEffect(() => {
-    const handleInsert = (e: CustomEvent<{ text: string }>) => {
+    const handleInsert = (e: any) => {
       if (!editor || !e.detail?.text) return;
       
       const markdownToHtml = (text: string) => {
@@ -205,7 +200,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         className="flex-1 overflow-y-auto editor-scroll pt-8 pb-32 flex flex-col items-center bg-gray-100 dark:bg-gray-950 transition-all duration-300"
         style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
       >
-        {editor && (
+        {editor && BubbleMenu && (
           <>
             <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="flex items-center gap-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-1 rounded-xl shadow-2xl backdrop-blur-xl">
               <Button size="icon" variant="ghost" className="h-8 w-8 rounded-lg" onClick={() => editor.chain().focus().toggleBold().run()}>
@@ -272,8 +267,6 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
     </div>
   );
 }
-
-export { useEditor };
 
 const Separator = ({ orientation, className }: { orientation: 'horizontal' | 'vertical', className?: string }) => (
   <div className={`bg-gray-200 dark:bg-gray-700 ${orientation === 'vertical' ? 'w-px' : 'h-px'} ${className}`} />

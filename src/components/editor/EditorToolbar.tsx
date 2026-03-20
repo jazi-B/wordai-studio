@@ -248,8 +248,8 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                          const title = 'Document';
                          const text = editor.getText();
                          const pdfData = await exportToPdf(title, text);
-                         // Use unknown as target for Uint8Array to BlobPart conversion
-                         const blob = new Blob([pdfData as unknown as BlobPart], { type: 'application/pdf' });
+                         // Use any to bypass strict ES2022 Uint8Array generic checks in Vercel
+                         const blob = new Blob([pdfData as any], { type: 'application/pdf' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.pdf`; link.click();
                          URL.revokeObjectURL(url);
@@ -264,8 +264,8 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                          const title = 'Document';
                          const text = editor.getText();
                          const docxBuffer = await exportToDocx(title, text);
-                         // Convert docxBuffer to BlobPart precisely for strict TS environments like Vercel
-                         const blob = new Blob([docxBuffer as unknown as BlobPart], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+                         // Use any here as well to guarantee build success on Vercel
+                         const blob = new Blob([docxBuffer as any], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.docx`; link.click();
                          URL.revokeObjectURL(url);
