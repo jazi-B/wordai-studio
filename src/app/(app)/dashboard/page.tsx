@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import { 
-  Plus, Search, BookOpen, BarChart2, 
-  Home, Compass, User, Bell, 
-  CheckCircle2, Clock, FileText, Sparkles,
-  ChevronRight, ArrowUpRight, Loader2
+  Plus, BarChart2, 
+  Home, Compass, User,
+  Clock, FileText, Sparkles,
+  ArrowUpRight, Loader2
 } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase';
@@ -13,8 +13,15 @@ import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { ImportDocButton } from '@/components/dashboard/ImportDocButton';
 
+interface DashboardDocument {
+  id: string;
+  title: string;
+  updated_at: string;
+  word_count: number;
+}
+
 const WordAIDashboard = () => {
-  const [documents, setDocuments] = useState<any[]>([]);
+  const [documents, setDocuments] = useState<DashboardDocument[]>([]);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
   const supabase = createClient();
@@ -28,11 +35,11 @@ const WordAIDashboard = () => {
       try {
         const { data, error } = await supabase
           .from('documents')
-          .select('*')
+          .select('id, title, updated_at, word_count')
           .order('updated_at', { ascending: false })
           .limit(6);
         
-        if (!error && data) setDocuments(data);
+        if (!error && data) setDocuments(data as DashboardDocument[]);
       } catch (e) {
         console.error(e);
       } finally {
@@ -97,7 +104,7 @@ const WordAIDashboard = () => {
           ))}
         </section>
 
-        {/* Active Assignments */}
+        {/* Recent Assignments */}
         <section className="px-4 mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-black text-slate-800">Recent Assignments</h2>
@@ -120,7 +127,7 @@ const WordAIDashboard = () => {
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {documents.map((doc, idx) => (
+              {documents.map((doc) => (
                 <div key={doc.id} className="bg-white p-6 rounded-[24px] shadow-sm border border-slate-100 transition-all hover:shadow-xl hover:border-blue-100 group">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-black text-slate-800 group-hover:text-blue-600 transition-colors truncate pr-2">{doc.title}</h3>

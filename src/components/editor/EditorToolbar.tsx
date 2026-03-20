@@ -12,7 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ImageSearchDialog } from './ImageSearchDialog';
 
 interface EditorToolbarProps {
@@ -206,7 +206,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
               <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
                  <div className="flex gap-4 h-full items-center">
                     <ToolbarButton onClick={addTable} label="Table"><TableIcon className="h-6 w-6" /></ToolbarButton>
-                    <div className="flex flex-col items-center">
+                    <div className="flex items-center">
                       <ImageSearchDialog onSelect={addImage} />
                       <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Graphics</span>
                     </div>
@@ -245,10 +245,10 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                     <ToolbarButton 
                       onClick={async () => {
                          const { exportToPdf } = await import('@/lib/exportService');
-                         const title = document.querySelector('h1')?.innerText || 'Assignment';
+                         const title = 'Document';
                          const text = editor.getText();
-                         const pdfUrl = await exportToPdf(title, text);
-                         const blob = new Blob([pdfUrl as any], { type: 'application/pdf' });
+                         const pdfData = await exportToPdf(title, text);
+                         const blob = new Blob([pdfData as BlobPart], { type: 'application/pdf' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.pdf`; link.click();
                          URL.revokeObjectURL(url);
@@ -260,7 +260,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                     <ToolbarButton 
                       onClick={async () => {
                          const { exportToDocx } = await import('@/lib/exportService');
-                         const title = document.querySelector('h1')?.innerText || 'Assignment';
+                         const title = 'Document';
                          const text = editor.getText();
                          const docxBuffer = await exportToDocx(title, text);
                          const blob = new Blob([docxBuffer], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });

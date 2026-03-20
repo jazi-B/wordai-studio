@@ -24,14 +24,19 @@ import CharacterCount from '@tiptap/extension-character-count';
 import Placeholder from '@tiptap/extension-placeholder';
 import Focus from '@tiptap/extension-focus';
 
-const { useEditor, EditorContent, BubbleMenu, FloatingMenu } = TiptapReact as any;
+// Define the Tiptap components with proper casting to avoid 'any'
+const { useEditor, EditorContent, BubbleMenu, FloatingMenu } = TiptapReact as unknown as {
+  useEditor: typeof TiptapReact.useEditor;
+  EditorContent: typeof TiptapReact.EditorContent;
+  BubbleMenu: typeof TiptapReact.BubbleMenu;
+  FloatingMenu: typeof TiptapReact.FloatingMenu;
+};
 
 import { EditorToolbar } from '@/components/editor/EditorToolbar';
 import { WordCountStatus } from '@/components/editor/WordCountStatus';
-import { useSettings } from '@/hooks/useSettings';
 import { 
   Bold, Italic, Underline as UnderlineIcon, List, Heading1, Heading2, 
-  ImageIcon, Table as TableIcon, Link2, Search, Type
+  ImageIcon, Table as TableIcon, Search, Type
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -43,7 +48,6 @@ interface TiptapEditorProps {
 }
 
 export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: TiptapEditorProps) {
-  const { settings } = useSettings();
   const [zoom, setZoom] = useState(1);
   const [showFind, setShowFind] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -89,10 +93,10 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         class: 'page-a4 outline-none focus:outline-none min-h-[297mm] prose prose-sm max-w-none transition-all duration-300',
       },
     },
-    onUpdate: ({ editor }: { editor: any }) => {
+    onUpdate: ({ editor }) => {
       onUpdate?.(editor.getHTML(), editor.getText());
     },
-    onSelectionUpdate: ({ editor }: { editor: any }) => {
+    onSelectionUpdate: ({ editor }) => {
       const { from, to } = editor.state.selection;
       if (from !== to) {
         onSelectionChange?.(editor.state.doc.textBetween(from, to, ' '));
@@ -102,7 +106,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
 
   // Listen for rich animation/content insertion from Sidebar
   useEffect(() => {
-    const handleInsert = (e: any) => {
+    const handleInsert = (e: CustomEvent<{ text: string }>) => {
       if (!editor || !e.detail?.text) return;
       
       const markdownToHtml = (text: string) => {
@@ -179,7 +183,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         <div className="absolute left-1/2 -translate-x-1/2 w-[210mm] h-full flex items-end px-[25.4mm]">
           <div className="flex-1 border-l border-r border-gray-400 dark:border-gray-500 h-2 flex justify-between relative">
              {Array.from({ length: 10 }, (_, i) => (
-               <span key={i} className="absolute text-[8px] text-gray-400" style={{ left: `${i * 10}%` }}>|</span>
+                <span key={i} className="absolute text-[8px] text-gray-400" style={{ left: `${i * 10}%` }}>|</span>
              ))}
             <div className="absolute -left-1 bottom-0 cursor-pointer text-blue-500 text-[10px] drop-shadow-sm">▲</div>
             <div className="absolute -right-1 bottom-0 cursor-pointer text-blue-500 text-[10px] drop-shadow-sm">▲</div>
@@ -201,7 +205,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         className="flex-1 overflow-y-auto editor-scroll pt-8 pb-32 flex flex-col items-center bg-gray-100 dark:bg-gray-950 transition-all duration-300"
         style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
       >
-        {editor && BubbleMenu && (
+        {editor && (
           <>
             <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }} className="flex items-center gap-1 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 p-1 rounded-xl shadow-2xl backdrop-blur-xl">
               <Button size="icon" variant="ghost" className="h-8 w-8 rounded-lg" onClick={() => editor.chain().focus().toggleBold().run()}>

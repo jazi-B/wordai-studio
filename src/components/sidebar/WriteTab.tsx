@@ -85,7 +85,7 @@ export function WriteTab({ selectedText, onInsertText }: WriteTabProps) {
     } catch {
       // error handled in hook
     }
-  }, [selectedText, writeAction, model, settings]);
+  }, [selectedText, writeAction, model, settings, onInsertText]);
 
   const handleWriteFromScratch = useCallback(async () => {
     if (!writePrompt.trim()) return;
@@ -112,7 +112,7 @@ export function WriteTab({ selectedText, onInsertText }: WriteTabProps) {
     } catch {
       // error handled in hook
     }
-  }, [writePrompt, writeAction, model, settings]);
+  }, [writePrompt, writeAction, model, settings, onInsertText]);
 
   const handleGenerateAssignment = useCallback(async () => {
     if (!assignmentTopic.trim()) return;
@@ -149,7 +149,7 @@ export function WriteTab({ selectedText, onInsertText }: WriteTabProps) {
     } catch {
       // error handled in hook
     }
-  }, [assignmentTopic, assignmentType, assignmentWords, assignmentLevel, assignmentCitation, assignmentSubject, assignmentKeyPoints, generateAssignment, model, settings]);
+  }, [assignmentTopic, assignmentType, assignmentWords, assignmentLevel, assignmentCitation, assignmentSubject, assignmentKeyPoints, generateAssignment, model, settings, onInsertText]);
 
   return (
     <ScrollArea className="flex-1 h-full">

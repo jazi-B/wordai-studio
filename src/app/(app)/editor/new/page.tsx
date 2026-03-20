@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase';
 import { useAuth } from '@/hooks/use-auth';
@@ -12,39 +12,40 @@ export default function NewEditorPage() {
   const supabase = createClient();
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const createDoc = async () => {
-      if (authLoading) return;
-      
-      if (!user) {
-        router.push('/login');
-        return;
+  const createDoc = useCallback(async () => {
+    if (authLoading) return;
+    
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+
+    try {
+      const { data, error } = await supabase
+        .from('documents')
+        .insert({
+          user_id: user.id,
+          title: 'Untitled Assignment',
+          content_text: '',
+          word_count: 0
+        })
+        .select('id')
+        .single();
+
+      if (error) throw error;
+      if (data) {
+        router.replace(`/editor/${data.id}`);
       }
-
-      try {
-        const { data, error } = await supabase
-          .from('documents')
-          .insert({
-            user_id: user.id,
-            title: 'Untitled Assignment',
-            content_text: '',
-            word_count: 0
-          })
-          .select('id')
-          .single();
-
-        if (error) throw error;
-        if (data) {
-          router.replace(`/editor/${data.id}`);
-        }
-      } catch (err: any) {
-        console.error('Failed to create document:', err);
-        setError(err.message);
-      }
-    };
-
-    createDoc();
+    } catch (err: unknown) {
+      const errorMsg = err instanceof Error ? err.message : 'Unknown error';
+      console.error('Failed to create document:', err);
+      setError(errorMsg);
+    }
   }, [user, authLoading, router, supabase]);
+
+  useEffect(() => {
+    createDoc();
+  }, [createDoc]);
 
   if (error) {
     return (

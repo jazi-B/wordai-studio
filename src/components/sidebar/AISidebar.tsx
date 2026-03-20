@@ -5,7 +5,6 @@ import { ChatTab } from "./ChatTab";
 import { WriteTab } from "./WriteTab";
 import { ImagesTab } from "./ImagesTab";
 import { CitationsTab } from "./CitationsTab";
-import { FormatTab } from "./FormatTab";
 import { SettingsTab } from "./SettingsTab";
 
 interface AISidebarProps {

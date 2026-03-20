@@ -13,16 +13,25 @@ import { useSettings } from "@/hooks/useSettings";
 
 import { verifyEndpoints } from "@/lib/test-api";
 
+interface TestResults {
+  success: boolean;
+  details: {
+    chat: boolean;
+    write: boolean;
+    images: boolean;
+  };
+}
+
 export function SettingsTab() {
   const { settings, updateSetting, updateApiKey, clearAllData } = useSettings();
   const [showConfirmClear, setShowConfirmClear] = useState(false);
-  const [testResults, setTestResults] = useState<{ success: boolean; details: any } | null>(null);
+  const [testResults, setTestResults] = useState<TestResults | null>(null);
   const [testing, setTesting] = useState(false);
 
   const runTests = async () => {
     setTesting(true);
     const results = await verifyEndpoints();
-    setTestResults(results as any);
+    setTestResults(results as unknown as TestResults);
     setTesting(false);
   };
 
@@ -44,7 +53,7 @@ export function SettingsTab() {
           <div className="space-y-3">
              <div>
                <Label className="text-[10px] uppercase font-bold text-gray-500 mb-1 block">Active AI Model</Label>
-               <Select value={settings.defaultModel} onValueChange={(v) => updateSetting('defaultModel', v as any)}>
+               <Select value={settings.defaultModel} onValueChange={(v) => updateSetting('defaultModel', v)}>
                  <SelectTrigger className="text-xs h-8"><SelectValue /></SelectTrigger>
                  <SelectContent>
                    <SelectItem value="gemini-2.0-flash">Gemini 2.0 Flash</SelectItem>

@@ -1,11 +1,33 @@
 "use client";
 
 import { useState } from 'react';
-import { Search, Image as ImageIcon, Loader2, X } from 'lucide-react';
+import { Search, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { createPexelsClient } from '@/lib/pexelsService'; // We'll create this next
+
+interface PexelsPhoto {
+  id: number;
+  width: number;
+  height: number;
+  url: string;
+  photographer: string;
+  photographer_url: string;
+  photographer_id: number;
+  avg_color: string;
+  src: {
+    original: string;
+    large2x: string;
+    large: string;
+    medium: string;
+    small: string;
+    portrait: string;
+    landscape: string;
+    tiny: string;
+  };
+  alt: string;
+  liked: boolean;
+}
 
 interface ImageSearchDialogProps {
   onSelect: (url: string) => void;
@@ -13,7 +35,7 @@ interface ImageSearchDialogProps {
 
 export function ImageSearchDialog({ onSelect }: ImageSearchDialogProps) {
   const [query, setQuery] = useState('');
-  const [images, setImages] = useState<any[]>([]);
+  const [images, setImages] = useState<PexelsPhoto[]>([]);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -92,6 +114,7 @@ export function ImageSearchDialog({ onSelect }: ImageSearchDialogProps) {
                     setOpen(false);
                   }}
                 >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={img.src.medium} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <span className="text-[10px] text-white font-black uppercase tracking-tighter backdrop-blur-md px-2 py-1 bg-white/10 rounded-lg">Select Image</span>

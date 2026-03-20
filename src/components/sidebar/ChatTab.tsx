@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Send, Sparkles, Copy, ArrowDownToLine, Trash2 } from "lucide-react";
+import { Send, Sparkles, Copy, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -97,7 +97,7 @@ export function ChatTab({ selectedText }: ChatTabProps) {
     } catch {
       setStreamingContent('');
     }
-  }, [input, isLoading, messages, model, streamChat]);
+  }, [input, isLoading, messages, model, streamChat, settings]);
 
   const insertContext = useCallback(() => {
     if (selectedText) {
