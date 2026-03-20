@@ -25,6 +25,7 @@ import Placeholder from '@tiptap/extension-placeholder';
 import Focus from '@tiptap/extension-focus';
 
 // Cast TiptapReact to any to avoid strict version mismatch issues during build
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const { useEditor, EditorContent, BubbleMenu, FloatingMenu } = TiptapReact as any;
 
 import { EditorToolbar } from '@/components/editor/EditorToolbar';
@@ -88,9 +89,11 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
         class: 'page-a4 outline-none focus:outline-none min-h-[297mm] prose prose-sm max-w-none transition-all duration-300',
       },
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onUpdate: ({ editor }: { editor: any }) => {
       onUpdate?.(editor.getHTML(), editor.getText());
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onSelectionUpdate: ({ editor }: { editor: any }) => {
       const { from, to } = editor.state.selection;
       if (from !== to) {
@@ -101,6 +104,7 @@ export function TiptapEditor({ onUpdate, onSelectionChange, initialContent }: Ti
 
   // Listen for rich animation/content insertion from Sidebar
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleInsert = (e: any) => {
       if (!editor || !e.detail?.text) return;
       

@@ -249,6 +249,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                          const text = editor.getText();
                          const pdfData = await exportToPdf(title, text);
                          // Use any to bypass strict ES2022 Uint8Array generic checks in Vercel
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                          const blob = new Blob([pdfData as any], { type: 'application/pdf' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.pdf`; link.click();
@@ -265,6 +266,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                          const text = editor.getText();
                          const docxBuffer = await exportToDocx(title, text);
                          // Use any here as well to guarantee build success on Vercel
+                         // eslint-disable-next-line @typescript-eslint/no-explicit-any
                          const blob = new Blob([docxBuffer as any], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.docx`; link.click();
