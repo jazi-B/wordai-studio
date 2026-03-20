@@ -1,17 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { createOpenAI } from '@ai-sdk/openai';
-import { streamText } from 'ai';
-import { AIMessage, AIRequestParams } from '@/types';
-
-// ========== Providers ==========
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_AI_API_KEY || '',
-});
-
-const groq = createOpenAI({
-  baseURL: 'https://api.groq.com/openai/v1',
-  apiKey: process.env.GROQ_API_KEY || '',
-});
+import { streamText, CoreMessage } from 'ai';
+import { AIRequestParams } from '@/types';
 
 // ========== Prompt Templates ==========
 export const ASSIGNMENT_SYSTEM_PROMPT = `You are an expert academic writer and university professor. Generate a complete, well-structured academic assignment on the given topic.
@@ -67,7 +57,7 @@ export async function callAI(params: AIRequestParams): Promise<ReadableStream | 
     stream = true,
   } = params;
 
-  const allMessages: any[] = messages.map(m => ({
+  const allMessages: CoreMessage[] = messages.map(m => ({
     role: m.role as 'system' | 'user' | 'assistant',
     content: m.content,
   }));
@@ -112,7 +102,8 @@ export async function callAI(params: AIRequestParams): Promise<ReadableStream | 
       });
       return text;
     }
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     console.error(`AI calling error [${model}]:`, error);
     throw new Error(error.message || 'AI service unavailable');
   }

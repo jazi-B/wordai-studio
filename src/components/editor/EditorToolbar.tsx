@@ -3,13 +3,11 @@
 import { useState, useCallback } from 'react';
 import { type Editor } from '@tiptap/react';
 import {
-  Undo, Redo, Bold, Italic, Underline as UnderlineIcon,
+  Bold, Italic, Underline as UnderlineIcon,
   Highlighter, AlignLeft, AlignCenter, AlignRight, AlignJustify,
-  List, ListOrdered, CheckSquare, ImageIcon, Link2, Table as TableIcon,
-  Code, Quote, Minus, Heading1, Heading2, Heading3,
-  Strikethrough, FileDown, Printer, Eraser, MoveHorizontal, ArrowUpDown,
-  Home, FilePlus, Layout, Settings, Search, Type, HelpCircle, User,
-  Scissors, Copy, Clipboard, FileText
+  List, ListOrdered, CheckSquare, Link2, Table as TableIcon,
+  Strikethrough, FileDown, Printer, Eraser, ArrowUpDown,
+  Layout, Scissors, Copy, Clipboard, FileText, Plus
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -104,18 +102,13 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
         
         <div className="flex items-center gap-2 pr-4 text-[10px] font-black text-slate-400">
            <span className="bg-blue-50 dark:bg-blue-900/30 text-blue-600 px-2 py-0.5 rounded-full text-[8px] uppercase tracking-tighter shadow-sm font-black">Pro Edition</span>
-           <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-gray-800 flex items-center justify-center overflow-hidden border border-white">
-              <User className="h-3.5 w-3.5" />
-           </div>
         </div>
       </div>
 
-      {/* Main Bar (The Ribbon Content) */}
       <div className="h-20 flex items-center p-2 gap-4 overflow-x-auto no-scrollbar bg-white dark:bg-gray-950">
         
         {activeTab === 'home' && (
           <>
-            {/* Clipboard Section */}
             <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
               <div className="flex gap-1 h-full items-center">
                  <ToolbarButton onClick={() => {}} label="Paste" className="h-12 w-12"><Clipboard className="h-6 w-6" /></ToolbarButton>
@@ -127,7 +120,6 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
               <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest text-center mt-auto">Clipboard</span>
             </div>
 
-            {/* Font Control Group */}
             <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
                <div className="flex flex-col gap-2">
                  <div className="flex gap-2">
@@ -166,7 +158,6 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest text-center mt-auto">Font</span>
             </div>
 
-            {/* Paragraph Group */}
             <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
               <div className="flex flex-col gap-2">
                  <div className="flex items-center gap-1">
@@ -186,7 +177,6 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
               <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest text-center mt-auto">Paragraph</span>
             </div>
 
-            {/* Styles Group */}
             <div className="flex flex-col h-full">
               <div className="flex gap-2">
                  <Button variant="outline" className="h-11 flex flex-col items-start gap-0 px-3 py-1 bg-slate-50 border-none rounded-xl hover:bg-slate-100 transition-all font-black text-xs text-blue-600 focus:scale-95" onClick={() => editor.chain().focus().setHeading({ level: 1 }).run()}>
@@ -207,20 +197,20 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
            <>
               <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
                  <div className="flex gap-3">
-                   <ToolbarButton onClick={() => {}} label="Cover Page"><FilePlus className="h-6 w-6" /></ToolbarButton>
-                   <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()} label="Blank Page"><FileText className="h-6 w-6" /></ToolbarButton>
+                    <ToolbarButton onClick={() => {}} label="New Page"><Plus className="h-6 w-6" /></ToolbarButton>
+                    <ToolbarButton onClick={() => editor.chain().focus().setHorizontalRule().run()} label="Section"><FileText className="h-6 w-6" /></ToolbarButton>
                  </div>
                  <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest text-center mt-auto">Pages</span>
               </div>
 
               <div className="flex flex-col h-full border-r border-slate-100 dark:border-gray-800 pr-4">
                  <div className="flex gap-4 h-full items-center">
-                   <ToolbarButton onClick={addTable} label="Table"><TableIcon className="h-6 w-6" /></ToolbarButton>
-                   <div className="flex flex-col items-center">
-                     <ImageSearchDialog onSelect={addImage} />
-                     <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Graphics</span>
-                   </div>
-                   <ToolbarButton onClick={addLink} label="Links"><Link2 className="h-6 w-6" /></ToolbarButton>
+                    <ToolbarButton onClick={addTable} label="Table"><TableIcon className="h-6 w-6" /></ToolbarButton>
+                    <div className="flex flex-col items-center">
+                      <ImageSearchDialog onSelect={addImage} />
+                      <span className="text-[8px] font-bold text-gray-400 uppercase tracking-widest mt-0.5">Graphics</span>
+                    </div>
+                    <ToolbarButton onClick={addLink} label="Links"><Link2 className="h-6 w-6" /></ToolbarButton>
                  </div>
                  <span className="text-[8px] font-bold text-gray-300 uppercase tracking-widest text-center mt-auto">Illustrations</span>
               </div>
@@ -258,7 +248,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
                          const title = document.querySelector('h1')?.innerText || 'Assignment';
                          const text = editor.getText();
                          const pdfUrl = await exportToPdf(title, text);
-                         const blob = new Blob([pdfUrl], { type: 'application/pdf' });
+                         const blob = new Blob([pdfUrl as any], { type: 'application/pdf' });
                          const url = URL.createObjectURL(blob);
                          const link = document.createElement('a'); link.href = url; link.download = `${title}.pdf`; link.click();
                          URL.revokeObjectURL(url);

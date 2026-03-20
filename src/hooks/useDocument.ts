@@ -8,7 +8,7 @@ import { debounce } from 'lodash';
 export interface Document {
   id: string;
   title: string;
-  content: any;
+  content: string;
   content_text: string;
   word_count: number;
 }
