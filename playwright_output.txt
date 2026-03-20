@@ -1,0 +1,44 @@
+
+Running 12 tests using 4 workers
+
+[1A[2K[1/12] [chromium] ΓÇ║ tests\documents.spec.ts:12:7 ΓÇ║ Documents Dashboard ΓÇ║ should show the sample documents
+[1A[2K[2/12] [chromium] ΓÇ║ tests\documents.spec.ts:8:7 ΓÇ║ Documents Dashboard ΓÇ║ should display "My Documents" title
+[1A[2K[3/12] [chromium] ΓÇ║ tests\documents.spec.ts:17:7 ΓÇ║ Documents Dashboard ΓÇ║ should have a working search bar
+[1A[2K[4/12] [chromium] ΓÇ║ tests\documents.spec.ts:24:7 ΓÇ║ Documents Dashboard ΓÇ║ should navigate to editor on document click
+[1A[2K[5/12] [chromium] ΓÇ║ tests\editor.spec.ts:9:7 ΓÇ║ Editor Page ΓÇ║ should load the editor with the correct document title
+[1A[2K[6/12] [chromium] ΓÇ║ tests\editor.spec.ts:13:7 ΓÇ║ Editor Page ΓÇ║ should display the editor toolbar
+[1A[2K[7/12] [chromium] ΓÇ║ tests\editor.spec.ts:20:7 ΓÇ║ Editor Page ΓÇ║ should allow switching sidebar tabs
+[1A[2K[8/12] [chromium] ΓÇ║ tests\editor.spec.ts:45:7 ΓÇ║ Editor Page ΓÇ║ should be able to type in the editor
+[1A[2K[9/12] [chromium] ΓÇ║ tests\editor.spec.ts:53:7 ΓÇ║ Editor Page ΓÇ║ should update word and char count in status bar
+[1A[2K[10/12] [chromium] ΓÇ║ tests\landing.spec.ts:8:7 ΓÇ║ Landing Page ΓÇ║ should display the main headline
+[1A[2K[11/12] [chromium] ΓÇ║ tests\landing.spec.ts:13:7 ΓÇ║ Landing Page ΓÇ║ should have a working "Start Writing" button
+[1A[2K[12/12] [chromium] ΓÇ║ tests\landing.spec.ts:20:7 ΓÇ║ Landing Page ΓÇ║ should show features section
+[1A[2K  1) [chromium] ΓÇ║ tests\documents.spec.ts:24:7 ΓÇ║ Documents Dashboard ΓÇ║ should navigate to editor on document click 
+
+    [31mTest timeout of 30000ms exceeded.[39m
+
+    Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Expected pattern: [32m/\/editor\/demo-1/[39m
+    Received string:  [31m"http://localhost:3000/documents"[39m
+
+    Call log:
+    [2m  - Expect "toHaveURL" with timeout 15000ms[22m
+    [2m    17 ├ù unexpected value "http://localhost:3000/documents"[22m
+
+
+      27 |     await docCard.click();
+      28 |     // Wait for the editor to load by checking for the same title in the header
+    > 29 |     await expect(page).toHaveURL(/\/editor\/demo-1/, { timeout: 15000 });
+         |                        ^
+      30 |     await expect(page.getByRole('heading', { name: 'Impact of AI on Higher Education' })).toBeVisible({ timeout: 10000 });
+      31 |   });
+      32 | });
+        at C:\Users\m_jaz\OneDrive\Desktop\antigravity\wordai-studio\tests\documents.spec.ts:29:24
+
+    Error Context: test-results\documents-Documents-Dashbo-c346a-to-editor-on-document-click-chromium\error-context.md
+
+
+[1A[2K  1 failed
+    [chromium] ΓÇ║ tests\documents.spec.ts:24:7 ΓÇ║ Documents Dashboard ΓÇ║ should navigate to editor on document click 
+  11 passed (7.5m)

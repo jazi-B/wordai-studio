@@ -1,0 +1,102 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5] [cursor=pointer]:
+          - generic [ref=e7]: W
+          - generic [ref=e8]: WordAI Studio
+        - generic [ref=e9]:
+          - link "Features" [ref=e10] [cursor=pointer]:
+            - /url: "#features"
+          - link "Demo" [ref=e11] [cursor=pointer]:
+            - /url: "#demo"
+          - link "Launch Editor" [ref=e12] [cursor=pointer]:
+            - /url: /editor/new
+            - button "Launch Editor" [ref=e13]:
+              - text: Launch Editor
+              - img
+    - generic [ref=e14]:
+      - generic [ref=e16]:
+        - img [ref=e17]
+        - generic [ref=e19]: The Next Generation of Academic Writing
+      - heading "Write Smart. Submit Better." [level=1] [ref=e20]:
+        - text: Write Smart.
+        - text: Submit Better.
+      - paragraph [ref=e21]: The all-in-one AI workspace designed for the modern student. From initial brainstorming to final citations, WordAI Studio powers your academic journey.
+      - generic [ref=e22]:
+        - link "Start Writing Free" [ref=e23] [cursor=pointer]:
+          - /url: /editor/new
+          - button "Start Writing Free" [ref=e24]
+        - link "Watch Demo" [ref=e25] [cursor=pointer]:
+          - /url: "#demo"
+          - button "Watch Demo" [ref=e26]
+      - generic [ref=e29]:
+        - generic [ref=e35]: wordai-studio.app/editor/assignment-01
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - img [ref=e39]
+            - img [ref=e43]
+            - img [ref=e47]
+            - img [ref=e52]
+          - generic [ref=e54]:
+            - heading "The Impact of AI on Education" [level=2] [ref=e55]
+            - paragraph [ref=e56]: Artificial Intelligence has fundamentally reshaped the academic landscape...
+            - paragraph [ref=e57]: By leveraging large language models, researchers are now capable of...
+          - generic [ref=e59]:
+            - img [ref=e60]
+            - paragraph [ref=e63]: AI Assistant
+            - paragraph [ref=e64]: "\"Generating your assignment outline now...\""
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - heading "Everything you need to excel." [level=2] [ref=e69]
+        - paragraph [ref=e70]: Built from the ground up for academic integrity and creative freedom.
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - img [ref=e74]
+          - heading "Intelligent Assistant" [level=3] [ref=e77]
+          - paragraph [ref=e78]: A pro-active companion that writes, refines, and researches alongside you in real-time.
+        - generic [ref=e79]:
+          - img [ref=e81]
+          - heading "Drafting Mastery" [level=3] [ref=e84]
+          - paragraph [ref=e85]: From complex essays to concise reports, generate high-quality drafts with a single click.
+        - generic [ref=e86]:
+          - img [ref=e88]
+          - heading "Visual Assets" [level=3] [ref=e92]
+          - paragraph [ref=e93]: Instantly find and insert copyright-free academic diagrams or illustrative imagery via web search.
+        - generic [ref=e94]:
+          - img [ref=e96]
+          - heading "Model Selection" [level=3] [ref=e99]
+          - paragraph [ref=e100]: Powered by Llama 3.3 (Groq) for lightning-fast, high-quality academic generation and reasoning.
+        - generic [ref=e101]:
+          - img [ref=e103]
+          - heading "Academic Honor" [level=3] [ref=e105]
+          - paragraph [ref=e106]: Built-in checks and formal citation formatting (APA, MLA, Harvard) keep your work pristine.
+        - generic [ref=e107]:
+          - img [ref=e109]
+          - heading "Global Citations" [level=3] [ref=e112]
+          - paragraph [ref=e113]: Translate and cite sources from across the world with seamless language support.
+    - generic [ref=e115]:
+      - heading "Ready to graduate to better writing?" [level=2] [ref=e118]:
+        - text: Ready to graduate to
+        - text: better writing?
+      - paragraph [ref=e119]: Join thousands of students who are already using AI to boost their productivity and academic success.
+      - link "Launch Studio Now" [ref=e120] [cursor=pointer]:
+        - /url: /editor/new
+        - button "Launch Studio Now" [ref=e121]
+    - contentinfo [ref=e122]:
+      - generic [ref=e123]:
+        - generic [ref=e125]: W
+        - generic [ref=e126]: WordAI Studio
+      - generic [ref=e127]: © 2024 WordAI Studio. Designed for Academic Success. Built with Next.js & Groq.
+      - generic [ref=e128]:
+        - link "Privacy" [ref=e129] [cursor=pointer]:
+          - /url: /
+        - link "Terms" [ref=e130] [cursor=pointer]:
+          - /url: /
+        - link "Contact" [ref=e131] [cursor=pointer]:
+          - /url: /
+  - alert [ref=e132]
+```
